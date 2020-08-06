@@ -151,10 +151,10 @@ def run_coala(console_printer=None,
                               VERSION))
 
         settings_hash = get_settings_hash(sections, targets)
-        flush_cache = bool(sections['cli'].get('flush_cache', False) or
-                           settings_changed(None, settings_hash))
 
         if cache is None and not sections['cli'].get('disable_caching', False):
+            flush_cache = bool(sections['cli'].get('flush_cache', False) or
+                               settings_changed(None, settings_hash))
             cache = FileDictFileCache(None, os.getcwd(), flush_cache)
 
         if targets:
@@ -206,8 +206,8 @@ def run_coala(console_printer=None,
 
             file_dicts[section_name] = section_result[3]
 
-        update_settings_db(None, settings_hash)
         if cache:
+            update_settings_db(None, settings_hash)
             cache.write()
 
         if CounterHandler.get_num_calls_for_level('ERROR') > 0:
