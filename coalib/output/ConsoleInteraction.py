@@ -375,6 +375,8 @@ def print_results_formatted(log_printer,
         severity_str = RESULT_SEVERITY.__str__(result.severity)
         format_args = vars(result)
         try:
+            message = result.message.replace('"', '\\"')
+
             if len(result.affected_code) == 0:
                 format_args['affected_code'] = None
                 print(format_str.format(file=None,
@@ -383,7 +385,7 @@ def print_results_formatted(log_printer,
                                         column=None,
                                         end_column=None,
                                         severity_str=severity_str,
-                                        message=result.message,
+                                        message=message,
                                         **format_args))
                 continue
 
@@ -396,7 +398,7 @@ def print_results_formatted(log_printer,
                                         column=range.start.column,
                                         end_column=range.end.column,
                                         severity_str=severity_str,
-                                        message=result.message,
+                                        message=message,
                                         **format_args))
         except KeyError as exception:
             log_exception(
